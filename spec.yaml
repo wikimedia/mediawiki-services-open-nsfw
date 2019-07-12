@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: nsfwoid
+  description: image NSFW likelihood scoring as a web service, based on Yahoo's open_nsfw project
+  termsOfService: https://wikimediafoundation.org/wiki/Terms_of_Use
+  contact:
+    name: Wikimedia Product Infrastructure team
+    url: https://www.mediawiki.org/wiki/Wikimedia_Product/Wikimedia_Product_Infrastructure_team
+  license:
+    name: Apache2
+    url: http://www.apache.org/licenses/LICENSE-2.0
+
+paths:
+  /:
+    get:
+      description: The root service end-point
+      responses:
+        200:
+          description: Success
+        default:
+          description: Error
+      x-amples:
+        - title: spec from root
+          request:
+            query:
+              spec: true
+          response:
+            status: 200
+    post:
+      description: Accepts URL of image for scoring
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                url:
+                  type: string
+                  description: URL of image to score
+        required: true
+      responses:
+        200:
+          description: NSFW likelihood score
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: Error
+      x-amples:
+        - title: Responds to POSTed image URL with NSFW likelihood score
+          request:
+            body:
+              url: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Jimmy-wales-frankfurt2005-alih01.jpg/160px-Jimmy-wales-frankfurt2005-alih01.jpg
+          response:
+            status: 200
+            headers:
+              content-type: text/plain
+            body: /0\.0.+/

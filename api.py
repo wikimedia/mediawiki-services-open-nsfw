@@ -1,5 +1,7 @@
+import json
+import yaml
+import logging
 import asyncio
-
 import aiohttp
 import async_timeout
 import numpy as np
@@ -7,10 +9,11 @@ import uvloop
 from aiohttp import web
 from aiohttp.web import HTTPBadRequest, HTTPNotFound, HTTPUnsupportedMediaType
 
+
 from classify_nsfw import caffe_preprocess_and_compute, load_model
-
-
 nsfw_net, caffe_transformer = load_model()
+
+logger = logging.getLogger(__name__)
 
 
 def classify(image: bytes) -> np.float64:
@@ -25,6 +28,13 @@ async def fetch(session, url):
             return await response.read()
 
 class API(web.View):
+    async def get(self):
+        request = self.request
+        if 'spec' in request.rel_url.query:
+            with open('spec.yaml', 'r') as stream:
+                return web.json_response(yaml.safe_load(stream))
+        else:
+            return web.Response(text='OK')
     async def post(self):
         request = self.request
         data = await request.post()

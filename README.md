@@ -16,6 +16,7 @@ python3 api.py
 
 Dockerfile generation and Docker image creation is supported with Wikimedia's Blubber tool. See the [project documentation][Blubber] for details.
 
+**Note:** currently broken without patching Blubber; see https://phabricator.wikimedia.org/T227919.
 
 ## API usage
 

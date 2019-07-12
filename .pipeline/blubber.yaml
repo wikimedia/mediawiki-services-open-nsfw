@@ -1,0 +1,37 @@
+version: v3
+base: docker-registry.wikimedia.org/python3
+lives:
+  in: /srv/service
+runs:
+  environment:
+    APP_BASE_PATH: /srv/service
+entrypoint: [python3, api.py]
+
+variants:
+  build:
+    base: docker-registry.wikimedia.org/python3-build-stretch
+    apt:
+      packages:
+        - git
+        - build-essential
+        - python3-pkgconfig
+        - caffe-cpu
+    python:
+      version: python3
+      requirements:
+        - requirements.txt
+    builder:
+      command: [cp, -a, /usr/lib/python3/dist-packages, /opt/lib/python]
+    runs:
+      environment:
+        LINK: g++
+  development:
+    includes:
+      - build
+  test:
+    includes:
+      - build
+    entrypoint: [python3, test.py]
+  production:
+    includes:
+      - build

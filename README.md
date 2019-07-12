@@ -1,65 +1,33 @@
-# open_nsfw--
+# nsfwoid
 
-This is a fork of Yahoo's [open_nsfw][]. The goal is to make the *Not Suitable
-for Work* (NSFW) classification model easily accessible through an HTTP API
-deployable with Docker.
+This is a fork of the [open_nsfw--][] project, updated for use in Wikimedia production. The project is originally based on Yahoo's [open_nsfw][].
 
-# Install
+It provides image NSFW likelihood scoring as a web service.
 
-First [install Docker][docker] (available in Debian as [docker.io][dpkg]), then
-give the user you want to run the API as permission to use Docker:
-``` shell
-sudo gpasswd -a $USER docker
+## Running the service
+
+### Quick start
+To run the service as a local Python process:
 ```
-You need to logout and login again for this to take effect.
-
-Now build the image, this might take a while:
-``` shell
-docker build -t open_nsfw https://raw.githubusercontent.com/rahiel/open_nsfw--/master/Dockerfile
+python3 api.py
 ```
 
-Then you can start the API:
-``` shell
-docker run -p <port>:8080 open_nsfw
-```
-where you replace `<port>` with the port number you want to have the API
-accessible on your local machine.
+### Dockerization via Blubber
 
+Dockerfile generation and Docker image creation is supported with Wikimedia's Blubber tool. See the [project documentation][Blubber] for details.
+
+
+## API usage
+
+POST an `url` of an image, and the service will fetch it and return the probability that it's NSFW, expressed as a floating point number between 0 and 1.
+
+``` shell
+curl -d 'url=https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/263px-Wikipedia-logo-v2.svg.png' localhost:8080
+0.018645038828253746
+```
+
+[open_nsfw--]: https://github.com/rahiel/open_nsfw--
 [open_nsfw]: https://github.com/yahoo/open_nsfw
 [docker]: https://docs.docker.com/engine/installation/
 [dpkg]: https://packages.debian.org/sid/docker.io
-
-# Usage
-
-The API is very simple, you POST an `url` of an image and the API will then
-fetch it, classify it and return the probability that it's NSFW. The probability
-is expressed as a real number between 0 and 1.
-
-In the following examples I assume you picked 8080 for the port number, so the
-API is running at `localhost:8080`.
-
-With curl:
-``` shell
-curl -d 'url=http://example.com/image.jpg' localhost:8080
-```
-
-With Python:
-``` python
-import requests
-r = requests.post("http://localhost:8080", data={"url": "http://example.com/image.jpg"})
-nsfw_prob = float(r.text)
-```
-
-# HTTP Errors
-
-## 400 Bad Request: Missing `url` POST parameter
-
-You need to specify `url` as a POST parameter.
-
-## 404 Not Found
-
-The requested `url` leads to an HTTP 404 Not Found error.
-
-## 415 Unsupported Media Type: Invalid image
-
-The requested `url` is not a valid image.
+[Blubber]: https://wikitech.wikimedia.org/wiki/Blubber

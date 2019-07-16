@@ -50,7 +50,7 @@ class Score(web.View):
             nsfw_prob = await score(image)
             return web.Response(text=nsfw_prob.astype(str))
         except KeyError:
-            return HTTPBadRequest(text="Missing `url` POST parameter")
+            raise HTTPBadRequest(text="Missing `url` POST parameter")
         except OSError as e:
             if "cannot identify" in str(e):
                 raise HTTPUnsupportedMediaType(text="Invalid image")

@@ -1,4 +1,3 @@
-import json
 import yaml
 import logging
 import asyncio
@@ -16,9 +15,13 @@ nsfw_net, caffe_transformer = load_model()
 logger = logging.getLogger(__name__)
 
 
-def classify(image: bytes) -> np.float64:
-    scores = caffe_preprocess_and_compute(image, caffe_transformer=caffe_transformer, caffe_net=nsfw_net, output_layers=["prob"])
-    return scores[1]
+async def score(image: bytes) -> np.float64:
+    return caffe_preprocess_and_compute(
+        image,
+        caffe_transformer=caffe_transformer,
+        caffe_net=nsfw_net,
+        output_layers=["prob"]
+    )[1]
 
 async def fetch(session, url):
     with async_timeout.timeout(10):
@@ -40,9 +43,8 @@ class API(web.View):
         data = await request.post()
         try:
             image = await fetch(session, data["url"])
-            nsfw_prob = classify(image)
-            text = nsfw_prob.astype(str)
-            return web.Response(text=text)
+            nsfw_prob = await score(image)
+            return web.Response(text=nsfw_prob.astype(str))
         except KeyError:
             return HTTPBadRequest(text="Missing `url` POST parameter")
         except OSError as e:

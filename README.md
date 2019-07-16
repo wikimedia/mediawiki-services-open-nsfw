@@ -22,10 +22,10 @@ The branch at https://github.com/mdholloway/blubber/tree/python-fix contains the
 
 ## API usage
 
-POST the `url` of an image, and the service will fetch it and return the probability that it's NSFW, expressed as a floating point number between 0 and 1.
+POST the `url` of an image to `/v1/score`, and the service will fetch it and return the probability that it's NSFW, expressed as a floating point number between 0 and 1.
 
 ``` shell
-curl -d 'url=https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/263px-Wikipedia-logo-v2.svg.png' localhost:8080
+curl -d 'url=https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/263px-Wikipedia-logo-v2.svg.png' localhost:8080/v1/score
 0.018645038828253746
 ```
 

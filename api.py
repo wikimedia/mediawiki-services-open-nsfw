@@ -32,7 +32,7 @@ async def fetch(session, url):
                 raise HTTPNotFound()
             return await response.read()
 
-class API(web.View):
+class Root(web.View):
     async def get(self):
         request = self.request
         if 'spec' in request.rel_url.query:
@@ -40,6 +40,8 @@ class API(web.View):
                 return web.json_response(yaml.safe_load(stream))
         else:
             return web.Response(text='OK')
+
+class Score(web.View):
     async def post(self):
         request = self.request
         data = await request.post()
@@ -59,5 +61,6 @@ class API(web.View):
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 session = aiohttp.ClientSession()
 app = web.Application()
-app.router.add_route("*", "/", API)
+app.router.add_route("get", "/v1/", Root)
+app.router.add_route("post", "/v1/score", Score)
 web.run_app(app)

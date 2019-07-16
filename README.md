@@ -18,7 +18,7 @@ Dockerfile generation and Docker image creation is supported with Wikimedia's Bl
 
 **Note:** Currently broken without patching Blubber; see https://phabricator.wikimedia.org/T227919.
 
-The branch at https://github.com/mdholloway/blubber/tree/python-fix contains the commit adding the `use-system-flag` declaration used in the Blubberfile here, cherry-picked on top of the latest Debian release.
+The Blubber fork branch at https://github.com/mdholloway/blubber/tree/python-fix contains the commit adding the `use-system-flag` declaration used in the Blubberfile here, cherry-picked on top of the latest Debian release.
 
 ## API usage
 

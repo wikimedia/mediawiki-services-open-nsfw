@@ -8,6 +8,8 @@ import uvloop
 from aiohttp import web
 from aiohttp.web import HTTPBadRequest, HTTPNotFound, HTTPUnsupportedMediaType
 
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from classify_nsfw import caffe_preprocess_and_compute, load_model
 nsfw_net, caffe_transformer = load_model()

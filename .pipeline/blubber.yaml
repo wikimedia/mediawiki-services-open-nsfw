@@ -20,6 +20,7 @@ variants:
       version: python3
       requirements:
         - requirements.txt
+      use-system-flag: true
     builder:
       command: [cp, -a, /usr/lib/python3/dist-packages, /opt/lib/python]
     runs:

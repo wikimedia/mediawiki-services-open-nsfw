@@ -32,7 +32,7 @@ variants:
   test:
     includes:
       - build
-    entrypoint: [python3, test/app.py]
+    entrypoint: [python3, test.py]
   production:
     includes:
       - build

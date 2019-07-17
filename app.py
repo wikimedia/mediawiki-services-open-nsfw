@@ -17,4 +17,6 @@ logging.basicConfig(level=log_level)
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-web.run_app(NSFWApp(config))
+
+if __name__ == '__main__':
+    web.run_app(NSFWApp(config))

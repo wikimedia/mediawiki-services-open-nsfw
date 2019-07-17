@@ -8,9 +8,9 @@ with open('config.yaml') as config_definition:
     config = yaml.safe_load(config_definition)
 
     if config and config['logging'] and config['logging']['level']:
-        log_level = 'WARNING'
-    else:
         log_level = config['logging']['level'].upper()
+    else:
+        log_level = 'WARNING'
 
 
 logging.basicConfig(level=log_level)

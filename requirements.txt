@@ -1,4 +1,6 @@
 aiodns
 aiohttp
 cchardet
+prometheus_async
+prometheus_client
 uvloop

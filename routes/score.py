@@ -2,8 +2,10 @@ from aiohttp import ClientSession, web
 from aiohttp.web import HTTPBadRequest, HTTPUnsupportedMediaType
 import asyncio
 import logging
+from lib.metrics import REQUEST_TIME
 from lib.scoring import score
 from lib.util import fetch
+from prometheus_async.aio import time
 import uvloop
 
 logger = logging.getLogger('nsfwoid/score')
@@ -13,6 +15,7 @@ session = ClientSession()
 
 
 class Score(web.View):
+    @time(REQUEST_TIME)
     async def post(self):
         request = self.request
         data = await request.post()

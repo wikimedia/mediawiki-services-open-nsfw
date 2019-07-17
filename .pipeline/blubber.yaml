@@ -5,7 +5,7 @@ lives:
 runs:
   environment:
     APP_BASE_PATH: /srv/service
-entrypoint: [python3, api.py]
+entrypoint: [python3, app.py]
 
 variants:
   build:
@@ -32,7 +32,7 @@ variants:
   test:
     includes:
       - build
-    entrypoint: [python3, test.py]
+    entrypoint: [python3, test/app.py]
   production:
     includes:
       - build

@@ -9,7 +9,7 @@ It provides image NSFW likelihood scoring as a web service.
 ### Quick start
 To run the service as a local Python process:
 ```
-python3 api.py
+python3 app.py
 ```
 
 ### Dockerization via Blubber

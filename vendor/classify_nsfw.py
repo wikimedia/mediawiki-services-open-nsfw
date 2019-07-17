@@ -76,9 +76,9 @@ def caffe_preprocess_and_compute(pimg, caffe_transformer=None, caffe_net=None, o
 
 def load_model(model_def=None, pretrained_model=None):
     if model_def is None:
-        model_def = "nsfw_model/deploy.prototxt"
+        model_def = "vendor/nsfw_model/deploy.prototxt"
     if pretrained_model is None:
-        pretrained_model = "nsfw_model/resnet_50_1by2_nsfw.caffemodel"
+        pretrained_model = "vendor/nsfw_model/resnet_50_1by2_nsfw.caffemodel"
 
     # Pre-load caffe model.
     nsfw_net = caffe.Net(model_def, pretrained_model, caffe.TEST)
